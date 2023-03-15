@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <title>Bài 1</title>
+    <style>
+        label>span {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-1">
+        <div class="form-modal row flex-lg-nowrap flex-sm-wrap">
+            <div class="modal-left col-5 col-xs-12 p-1 mx-1">
+                <h5 class="bg-info text-white p-1">Nhập thông tin xe cộ</h5>
+                <form class="px-4 py-2">
+                    <div class="form-group mb-2">
+                        <label for="namecar" class="form-label">Tên xe <span>&#42;</span>:</label>
+                        <input required type="text" class="form-control" id="namecar" name="namecar"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="image" class="form-label">Hình ảnh :</label>
+                        <input type="text" class="form-control" id="image" name="img" />
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="brand" class="form-label">Hãng xe <span>&#42;</span>:</label>
+                        <select required class="form-select">
+                            <option value = "" selected>--Hãng xe--</option>
+                            <option value="Huyndai">Huyndai</option>
+                            <option value="Ferrari">Ferrari</option>
+                            <option value="Lamborgini">Lamborgini</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="price" class="form-label">Giá tiền <span>&#42;</span>:</label>
+                        <input required type="number" class="form-control" id="price" name="price"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="description" class="form-label">Mô tả :</label>
+                        <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="person" class="form-label">Người liên hệ <span>&#42;</span>:</label>
+                        <input required type="text" class="form-control" id="person" name="person"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="hotline" class="form-label">Số điện thoại người liên hệ <span>&#42;</span>:</label>
+                        <input required type="tel" class="form-control" id="hotline" name="hotline"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="email" class="form-label">Email <span>&#42;</span>:</label>
+                        <input required type="email" class="form-control" id="email" name="email"/>
+                    </div>
+                    <button type="submit" class="btn btn-success text-white">
+                        Lưu
+                    </button>
+                    <button type="reset" class="btn btn-warning text-black">
+                        Xóa
+                    </button>
+                </form>
+            </div>
+            <div class="modal-right col-7 p-1 mx-1">
+                <h5 class="bg-info text-white p-1">Quản lý danh sách xe cộ</h5>
+                <form class="">
+                    <input type="text" placeholder="Tìm kiếm..." class="form-control" name="search">
+                    <table class="table table-bordered my-2">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Hình Ảnh</th>
+                                <th scope="col">Tên Xe</th>
+                                <th scope="col">Hãng Xe</th>
+                                <th scope="col">Giá Tiền</th>
+                                <th scope="col">Người Liên Hệ</th>
+                                <th scope="col">Điện Thoại</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body"></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="./bai1.js"></script>
+</body>
+
+</html>
