@@ -133,10 +133,6 @@ function Delete() {
 }
 
 Delete()
-
-// Update data
-
-
 // Xử lí lọc trong phần tìm kiếm
 const searchInput = document.querySelector('input[name="search"]')
 
