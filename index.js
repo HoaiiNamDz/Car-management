@@ -79,6 +79,15 @@ function getValue() {
     return newInfo
 }
 
+// Xóa value trong input sau khi submit
+function clearValue() {
+    inputElements.forEach((input) => {
+        input.value = ''
+        selectElement.value = ''
+        inputElements[0].focus()
+    })
+}
+
 // Xử lý lưu thông tin
 btnSuccess.onclick = (e => {
     function pushInfo() {
@@ -93,12 +102,7 @@ btnSuccess.onclick = (e => {
         // Render info 
         renderInfo(datas)
 
-        // Xóa value trong input sau khi submit
-        inputElements.forEach((input) => {
-            input.value = ''
-            selectElement.value = ''
-            inputElements[0].focus()
-        })
+        clearValue()
 
         clickShowInfo()
     }
@@ -112,9 +116,10 @@ btnSuccess.onclick = (e => {
                 if(rowIndex === index) {
                     return getValue()
                 } else {
-                   return data
+                    return data
                 }
             })
+            clickShowInfo()
             renderInfo(datas)
             console.log("row",datas);
         } else {
@@ -145,23 +150,26 @@ function Delete() {
 Delete()
 // Xử lí lọc trong phần tìm kiếm
 const searchInput = document.querySelector('input[name="search"]')
-
-searchInput.oninput = () => {
-    datas.map((data,index) => {
-        const searchValue = searchInput.value.toLowerCase().trim()
-        const name = data.namecar.toLowerCase();
-        const email = data.email.toLowerCase();
-        const price = data.price.toString();
-        const person = data.person.toString();
-        const hotline = data.hotline.toString();
-        
-        if (name.includes(searchValue) || email.includes(searchValue) || price.includes(searchValue) || person.includes(searchValue) || hotline.includes(searchValue)) {
-            document.querySelector('.table-info').style.display = "table-row";
-        } else {
-            document.querySelector('.table-info').style.display = "none";
-        }
-    }) 
+function search() {
+    const searchValue = searchInput.value.toLowerCase()
+    const newCar = datas.filter(item => {
+        return item.namecar.includes(searchValue) || item.brand.includes(searchValue) 
+        || item.price.includes(searchValue) || item.person.includes(searchValue) 
+        || item.hotline.includes(searchValue) || item.email.includes(searchValue)
+    
+        return item.namecar.indexOf(searchValue) || item.brand.indexOf(searchValue) 
+        || item.price.indexOf(searchValue) || item.person.indexOf(searchValue) 
+        || item.hotline.indexOf(searchValue) || item.email.indexOf(searchValue)
+    })
+    if(searchValue.length!=0) {
+        renderInfo(newCar)
+    } else {
+        renderInfo(datas)
+    }
+    clickShowInfo()
 }
+
+searchInput.addEventListener('keyup', search)
 
 // Xử lý phải nhập số điện thoại đúng type
 function isPhoneNumber() {
