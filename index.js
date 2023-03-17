@@ -11,16 +11,17 @@ const inputEmail = document.querySelector('input[name="email"]')
 
 
 let datas = []
-let info = {
-namecar: '',
-img: '',
-brand: '',
-price: '',
-person: '',
-hotline: '',
-email: '',
-}
+// let info = {
+//     namecar: '',
+//     img: '',
+//     brand: '',
+//     price: '',
+//     person: '',
+//     hotline: '',
+//     email: '',
+// }
 let rowSelected = null
+let rowIndex = null
 
 
 // Click vào dòng hiện thông tin xe
@@ -39,46 +40,55 @@ function clickShowInfo() {
                     inputPerson.value = datas[`${index}`].person
                     inputHotline.value = datas[`${index}`].hotline
                     inputEmail.value = datas[`${index}`].email
+                    rowSelected = datas[`${index}`]
                 } 
             })
         }
     })
 }
 
+function renderInfo(datas) {
+    const html = datas.map((data,index) => {
+        return `
+            <tr data-index=${index} class="table-info">
+                <th scope="col">${index+1}</th>
+                <th scope="col">${data.img}</th>
+                <th scope="col">${data.namecar}</th>
+                <th scope="col">${data.brand}</th>
+                <th scope="col">${data.price}</th>
+                <th scope="col">${data.person}</th>
+                <th scope="col">${data.hotline}</th>
+                <th scope="col">${data.email}</th>
+            </tr>
+        `
+    })
+    tableBody.innerHTML = html.join('')
+}
+
+// GET value
+function getValue() {
+    const newInfo = {
+        namecar: inputNameCar.value,
+        img: inputImg.value,
+        brand: selectElement.value,
+        price: inputPrice.value,
+        person: inputPerson.value,
+        hotline: inputHotline.value,
+        email: inputEmail.value
+    }
+    return newInfo
+}
+
 // Xử lý lưu thông tin
 btnSuccess.onclick = (e => {
-
-    function renderInfo(datas) {
-        const html = datas.map((data,index) => {
-            return `
-                <tr data-index=${index} class="table-info">
-                    <th scope="col">${index+1}</th>
-                    <th scope="col">${data.img}</th>
-                    <th scope="col">${data.namecar}</th>
-                    <th scope="col">${data.brand}</th>
-                    <th scope="col">${data.price}</th>
-                    <th scope="col">${data.person}</th>
-                    <th scope="col">${data.hotline}</th>
-                    <th scope="col">${data.email}</th>
-                </tr>
-            `
-        })
-        tableBody.innerHTML = html.join('')
-    }
     function pushInfo() {
-        info = {
-            namecar: inputNameCar.value,
-            img: inputImg.value,
-            brand: selectElement.value,
-            price: inputPrice.value,
-            person: inputPerson.value,
-            hotline: inputHotline.value,
-            email: inputEmail.value
-        }
+        console.log("push");
+        const info = getValue()
         datas.push(info)
     }
     
     function submit() {
+        console.log("submit");
         pushInfo()
         // Render info 
         renderInfo(datas)
@@ -95,38 +105,38 @@ btnSuccess.onclick = (e => {
 
     if((inputNameCar.value && inputPrice.value && inputPerson.value && inputHotline.value && inputEmail.value) !== '') {
         e.preventDefault()
-        submit()
+        console.log("...");
+        if(rowSelected) {
+            console.log("update submit");
+            datas = datas.map((data, index) => {
+                if(rowIndex === index) {
+                    return getValue()
+                } else {
+                   return data
+                }
+            })
+            renderInfo(datas)
+            console.log("row",datas);
+        } else {
+            console.log("push submit");
+            submit()
+            rowSelected = null
+        }
     } 
+    
 })
 
 // Xử lý xóa thông tin
 function Delete() {
     const deleteBtn = document.querySelector('.btn-warning')
     
-    function resetInfo(datas) {
-        const html = datas.map((data,index) => {
-            return `
-                <tr data-index=${index} class="table-info">
-                    <th scope="col">${index+1}</th>
-                    <th scope="col">${data.img}</th>
-                    <th scope="col">${data.namecar}</th>
-                    <th scope="col">${data.brand}</th>
-                    <th scope="col">${data.price}</th>
-                    <th scope="col">${data.person}</th>
-                    <th scope="col">${data.hotline}</th>
-                    <th scope="col">${data.email}</th>
-                </tr>
-            `
-        })
-        tableBody.innerHTML = html.join('')
-    }
     deleteBtn.onclick = () => { 
         const newDatas = datas.map((data,index) => {
             if(index === rowIndex) {
                 datas.splice(rowIndex,1)
             }
         })
-        resetInfo(datas)
+        renderInfo(datas)
         clickShowInfo()
         console.log(datas);
     }
@@ -145,7 +155,6 @@ searchInput.oninput = () => {
         const person = data.person.toString();
         const hotline = data.hotline.toString();
         
-        console.log(tableInfos);
         if (name.includes(searchValue) || email.includes(searchValue) || price.includes(searchValue) || person.includes(searchValue) || hotline.includes(searchValue)) {
             document.querySelector('.table-info').style.display = "table-row";
         } else {
